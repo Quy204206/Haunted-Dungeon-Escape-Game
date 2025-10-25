@@ -4,20 +4,156 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Haunted Dungeon Escape 👻</title>
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Eater&family=Butcherman&display=swap" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Eater&family=Butcherman&display=swap');
+
+    body {
+        font-family: 'Creepster', cursive;
+        text-align: center;
+        background-color: #1a1a1a;
+        color: #b30000;
+        background-image: radial-gradient(circle, #330000 0%, #1a0000 70%, #000000 100%);
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        font-family: 'Butcherman', cursive;
+        color: #ff0000;
+        text-shadow: 0 0 4px #ff0000, 0 0 0.1px #ff0000, 0px 0px 1px #000000;
+        font-size: 3em;
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+    }
+
+    #room-description {
+        font-family: 'Eater', cursive;
+        color: #ff6b6b;
+        font-size: 1.3em;
+        text-shadow: 1px 1px 3px #000000;
+        margin-bottom: 20px;
+        max-width: 600px;
+        margin: 30px auto;
+    }
+
+    #answer-input {
+        font-family: 'Creepster', cursive;
+        font-size: 1.2em;
+        padding: 10px 15px;
+        background-color: #2d2d2d;
+        color: #ff0000;
+        border: 2px solid #8b0000;
+        border-radius: 8px;
+        text-align: center;
+        width: 250px;
+        margin: 10px;
+    }
+
+    #answer-input::placeholder {
+        color: #666;
+        font-family: 'Creepster', cursive;
+    }
+
+    #submit-btn {
+        font-family: 'Creepster', cursive;
+        font-size: 1.2em;
+        padding: 10px 20px;
+        background-color: #8b0000;
+        color: #000000;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-left: 10px;
+        text-shadow: 1px 1px 2px #ff0000;
+        transition: all 0.3s ease;
+    }
+
+    #submit-btn:hover {
+        background-color: #ff0000;
+        color: #000000;
+        transform: scale(1.05);
+    }
+
+    #message {
+        font-family: 'Creepster', cursive;
+        color: #ff4444;
+        font-size: 1.3em;
+        margin-top: 20px;
+        text-shadow: 1px 1px 2px #000000;
+        min-height: 30px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Haunted Dungeon Escape 👻</h1>
-
+  <h1><b>Haunted Dungeon Escape 👻</b></h1>
   <div id="room-description">
     You wake up in a dark dungeon... Solve the math puzzle to open the first door.
   </div>
 
-  <input id="answer-input" type="text" placeholder="Type your answer here" />
-  <button id="submit-btn">Unlock Door</button>
+  <div>
+    <input id="answer-input" type="text" placeholder="Type your answer here" />
+    <button id="submit-btn">Unlock Door</button>
+  </div>
 
   <p id="message"></p>
 
-  <script src="script.js"></script>
+  <script>
+    // Haunted Dungeon Escape 👻
+    // A simple math puzzle adventure game
+
+    const rooms = [
+      {
+        description: "You see a glowing riddle on the wall: 3x - 5 = 10. Solve for x.",
+        answer: "5"
+      },
+      {
+        description: "A skeleton blocks your way! Find the area of a rectangle 4 x 6.",
+        answer: "24"
+      },
+      {
+        description: "You find a mysterious scroll: What is 12 ÷ 4?",
+        answer: "3"
+      },
+      {
+        description: "The final gate asks: What is sin(90°)?",
+        answer: "1"
+      }
+    ];
+
+    let currentRoom = 0;
+
+    const descriptionEl = document.getElementById("room-description");
+    const inputEl = document.getElementById("answer-input");
+    const buttonEl = document.getElementById("submit-btn");
+    const messageEl = document.getElementById("message");
+
+    function showRoom() {
+      if (currentRoom < rooms.length) {
+        descriptionEl.textContent = rooms[currentRoom].description;
+        inputEl.value = "";
+        messageEl.textContent = "";
+      } else {
+        descriptionEl.textContent = "🎉 You escaped the haunted dungeon! Congratulations!";
+        inputEl.style.display = "none";
+        buttonEl.style.display = "none";
+        messageEl.textContent = "";
+      }
+    }
+
+    buttonEl.addEventListener("click", () => {
+      const userAnswer = inputEl.value.trim();
+      if (userAnswer === rooms[currentRoom].answer) {
+        messageEl.textContent = "✅ Correct! The door creaks open...";
+        currentRoom++;
+        setTimeout(showRoom, 1500);
+      } else {
+        messageEl.textContent = "👻 Wrong! The ghost laughs... Try again!";
+      }
+    });
+
+    showRoom();
+  </script>
 </body>
 </html>
