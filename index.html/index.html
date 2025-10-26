@@ -17,7 +17,71 @@
         min-height: 100vh;
         margin: 0;
         padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
+
+    /* ========== START SCREEN STYLES - ADDED HERE ========== */
+    #start-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #1a1a1a;
+        background-image: radial-gradient(circle, #330000 0%, #1a0000 70%, #000000 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    #start-title {
+        font-family: 'Butcherman', cursive;
+        color: #ff0000;
+        text-shadow: 0 0 3px #ff0000, 0 0 3px #ff0000, 1px 1px 3px #000000;
+        font-size: 4em;
+        letter-spacing: 3px;
+        margin-bottom: 20px;
+    }
+
+    #start-subtitle {
+        font-family: 'Eater', cursive;
+        color: #ff6b6b;
+        font-size: 1.5em;
+        text-shadow: 1px 1px 3px #000000;
+        margin-bottom: 40px;
+    }
+
+    #start-btn {
+        font-family: 'Butcherman', cursive;
+        font-size: 2em;
+        padding: 20px 40px;
+        background: #8b0000;
+        color: #000000;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        text-shadow: 1px 1px 2px #ff0000;
+        transition: all 0.3s ease;
+    }
+
+    #start-btn:hover {
+        background: #ff0000;
+        transform: scale(1.1);
+    }
+
+    #main-game {
+        display: none; /* Hidden until start button is clicked */
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+    }
+    /* ========== END OF START SCREEN STYLES ========== */
 
     h1 {
         font-family: 'Butcherman', cursive;
@@ -28,27 +92,75 @@
         margin-bottom: 20px;
     }
 
+    /* ========== GAME STATS STYLES - ADDED HERE ========== */
+    #game-stats {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        text-align: left;
+        font-family: 'Creepster', cursive;
+        color: #ff4444;
+        font-size: 1.2em;
+        text-shadow: 1px 1px 2px #000000;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 10px;
+        border-radius: 8px;
+        border: 2px solid #8b0000;
+    }
+
+    #game-stats div {
+        margin: 5px 0;
+    }
+
+    #timer {
+        color: #00ff00;
+        font-weight: bold;
+    }
+
+    #score {
+        color: #ffaa00;
+        font-weight: bold;
+    }
+
+    /* ========== CENTERED GAME CONTENT ========== */
+    #game-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 70vh;
+        padding: 20px;
+    }
+
     #room-description {
         font-family: 'Eater', cursive;
         color: #ff6b6b;
         font-size: 1.3em;
         text-shadow: 1px 1px 3px #000000;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
         max-width: 600px;
-        margin: 30px auto;
+        line-height: 1.5;
+    }
+
+    #input-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        margin: 20px 0;
     }
 
     #answer-input {
         font-family: 'Creepster', cursive;
         font-size: 1.2em;
-        padding: 10px 15px;
+        padding: 12px 20px;
         background-color: #2d2d2d;
         color: #ff0000;
         border: 2px solid #8b0000;
         border-radius: 8px;
         text-align: center;
-        width: 250px;
-        margin: 10px;
+        width: 300px;
+        max-width: 90vw;
     }
 
     #answer-input::placeholder {
@@ -58,16 +170,16 @@
 
     #submit-btn {
         font-family: 'Creepster', cursive;
-        font-size: 1.2em;
-        padding: 10px 20px;
+        font-size: 1.3em;
+        padding: 12px 30px;
         background-color: #8b0000;
         color: #000000;
         border: none;
         border-radius: 8px;
         cursor: pointer;
-        margin-left: 10px;
         text-shadow: 1px 1px 2px #ff0000;
         transition: all 0.3s ease;
+        width: 200px;
     }
 
     #submit-btn:hover {
@@ -84,24 +196,222 @@
         text-shadow: 1px 1px 2px #000000;
         min-height: 30px;
     }
+
+    /* Sound controls */
+    #sound-controls {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+    }
+
+    #mute-btn {
+        background: #8b0000;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: 'Creepster', cursive;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+        #game-stats {
+            position: relative;
+            top: auto;
+            left: auto;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        #sound-controls {
+            position: relative;
+            top: auto;
+            right: auto;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+        }
+        
+        #room-description {
+            font-size: 1.1em;
+        }
+    }
   </style>
 </head>
 <body>
-  <h1><b>Haunted Dungeon Escape 👻</b></h1>
-  <div id="room-description">
-    You wake up in a dark dungeon... Solve the math puzzle to open the first door.
+  <!-- ========== START SCREEN HTML - ADDED HERE ========== -->
+  <div id="start-screen">
+    <h1 id="start-title">HAUNTED DUNGEON ESCAPE</h1>
+    <p id="start-subtitle">Can you solve the puzzles and escape the haunted dungeon?</p>
+    <button id="start-btn">ENTER DUNGEON 👻</button>
   </div>
 
-  <div>
-    <input id="answer-input" type="text" placeholder="Type your answer here" />
-    <button id="submit-btn">Unlock Door</button>
-  </div>
+  <!-- ========== MAIN GAME (now wrapped in a container) ========== -->
+  <div id="main-game">
+    <!-- ========== GAME STATS - ADDED HERE ========== -->
+    <div id="game-stats">
+      <div id="score-display">Score: <span id="score">0</span></div>
+      <div id="timer-display">Time: <span id="timer">60</span>s</div>
+      <div id="room-display">Room: <span id="room-number">1</span>/4</div>
+    </div>
 
-  <p id="message"></p>
+    <div id="sound-controls">
+      <button id="mute-btn">🔊 Sound On</button>
+    </div>
+
+    <!-- ========== CENTERED GAME CONTENT ========== -->
+    <div id="game-content">
+      <h1><b>Haunted Dungeon Escape 👻</b></h1>
+      <div id="room-description">
+        You wake up in a dark dungeon... Solve the math puzzle to open the first door.
+      </div>
+
+      <div id="input-container">
+        <input id="answer-input" type="text" placeholder="Type your answer here" />
+        <button id="submit-btn">Unlock Door</button>
+      </div>
+
+      <p id="message"></p>
+    </div>
+  </div>
 
   <script>
     // Haunted Dungeon Escape 👻
     // A simple math puzzle adventure game
+
+    // ========== TIMER & SCORE SYSTEM - ADDED HERE ==========
+    let score = 0;
+    let timeLeft = 60; // 60 seconds per room
+    let timerInterval;
+
+    function startTimer() {
+        clearInterval(timerInterval); // Clear any existing timer
+        timeLeft = 60; // Reset to 60 seconds for each room
+        updateTimerDisplay();
+        
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            updateTimerDisplay();
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                messageEl.textContent = "⏰ Time's up! The ghost attacks!";
+                playSound('wrong');
+                playSound('ghost');
+                updateScore(-10); // Penalty for running out of time
+                setTimeout(nextRoom, 2000);
+            }
+        }, 1000);
+    }
+
+    function updateTimerDisplay() {
+        const timerEl = document.getElementById('timer');
+        if (timerEl) {
+            timerEl.textContent = timeLeft;
+            // Change color when time is running low
+            if (timeLeft <= 10) {
+                timerEl.style.color = '#ff0000';
+            } else if (timeLeft <= 30) {
+                timerEl.style.color = '#ffaa00';
+            } else {
+                timerEl.style.color = '#00ff00';
+            }
+        }
+    }
+
+    function updateScore(points) {
+        score += points;
+        if (score < 0) score = 0; // Prevent negative score
+        const scoreEl = document.getElementById('score');
+        if (scoreEl) {
+            scoreEl.textContent = score;
+        }
+    }
+
+    function updateRoomDisplay() {
+        const roomEl = document.getElementById('room-number');
+        if (roomEl) {
+            roomEl.textContent = currentRoom + 1;
+        }
+    }
+
+    function nextRoom() {
+        currentRoom++;
+        if (currentRoom < rooms.length) {
+            showRoom();
+        } else {
+            endGame();
+        }
+    }
+
+    function endGame() {
+        clearInterval(timerInterval);
+        descriptionEl.textContent = "🎉 You escaped the haunted dungeon! Congratulations!";
+        inputEl.style.display = "none";
+        buttonEl.style.display = "none";
+        messageEl.textContent = `Final Score: ${score} points!`;
+        playSound('victory');
+    }
+
+    // ========== START SCREEN LOGIC - ADDED HERE ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        const startScreen = document.getElementById('start-screen');
+        const startBtn = document.getElementById('start-btn');
+        const mainGame = document.getElementById('main-game');
+        
+        // Show start screen initially, hide main game
+        startScreen.style.display = 'flex';
+        mainGame.style.display = 'none';
+        
+        startBtn.addEventListener('click', function() {
+            // Hide start screen and show main game
+            startScreen.style.display = 'none';
+            mainGame.style.display = 'block';
+            
+            // Initialize the game
+            showRoom();
+        });
+    });
+
+    // Sound System
+    let soundEnabled = true;
+
+    function playSound(soundName) {
+        if (!soundEnabled) return;
+        
+        try {
+            // Use browser's built-in beep (works in most browsers)
+            console.log('\x07'); // This makes a beep in some terminals
+            
+            // Alternative: Use speech synthesis to make sounds
+            if (soundName === 'correct') {
+                const msg = new SpeechSynthesisUtterance('✓');
+                window.speechSynthesis.speak(msg);
+            } else if (soundName === 'wrong') {
+                const msg = new SpeechSynthesisUtterance('✗');
+                window.speechSynthesis.speak(msg);
+            } else if (soundName === 'door') {
+                const msg = new SpeechSynthesisUtterance('you are correct');
+                window.speechSynthesis.speak(msg);
+            } else if (soundName === 'ghost') {
+                const msg = new SpeechSynthesisUtterance('ha ha ha. You are wrong, please try again');
+                window.speechSynthesis.speak(msg);
+            } else if (soundName === 'victory') {
+                const msg = new SpeechSynthesisUtterance('congratulations, you win!');
+                window.speechSynthesis.speak(msg);
+            }
+        } catch (e) {
+            console.log("Sound not supported");
+        }
+    }
+
+    // Toggle sound
+    document.getElementById('mute-btn').addEventListener('click', function() {
+        soundEnabled = !soundEnabled;
+        this.textContent = soundEnabled ? '🔊 Sound On' : '🔇 Sound Off';
+    });
 
     const rooms = [
       {
@@ -134,26 +444,46 @@
         descriptionEl.textContent = rooms[currentRoom].description;
         inputEl.value = "";
         messageEl.textContent = "";
+        inputEl.focus(); // Auto-focus on input
+        
+        // Update game stats
+        updateRoomDisplay();
+        startTimer(); // Start the timer for this room
       } else {
-        descriptionEl.textContent = "🎉 You escaped the haunted dungeon! Congratulations!";
-        inputEl.style.display = "none";
-        buttonEl.style.display = "none";
-        messageEl.textContent = "";
+        endGame();
       }
     }
 
     buttonEl.addEventListener("click", () => {
       const userAnswer = inputEl.value.trim();
       if (userAnswer === rooms[currentRoom].answer) {
-        messageEl.textContent = "✅ Correct! The door creaks open...";
+        clearInterval(timerInterval); // Stop the timer
+        const timeBonus = Math.max(0, timeLeft); // Bonus points for remaining time
+        const pointsEarned = 50 + timeBonus; // Base points + time bonus
+        
+        messageEl.textContent = `✅ Correct! +${pointsEarned} points! The door creaks open...`;
+        playSound('correct');
+        playSound('door');
+        updateScore(pointsEarned);
+        
         currentRoom++;
         setTimeout(showRoom, 1500);
       } else {
-        messageEl.textContent = "👻 Wrong! The ghost laughs... Try again!";
+        messageEl.textContent = "👻 Wrong! -10 points! The ghost laughs... Try again!";
+        playSound('wrong');
+        playSound('ghost');
+        updateScore(-10); // Penalty for wrong answer
       }
     });
 
-    showRoom();
+    // Allow pressing Enter to submit
+    inputEl.addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        buttonEl.click();
+      }
+    });
+
+    // Removed the auto-showRoom() call since it's now triggered by start button
   </script>
 </body>
 </html>
