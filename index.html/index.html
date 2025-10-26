@@ -197,6 +197,42 @@
         min-height: 30px;
     }
 
+    /* ========== PLAY AGAIN BUTTONS STYLES ========== */
+    #play-again-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .play-again-btn {
+        font-family: 'Butcherman', cursive;
+        font-size: 1.5em;
+        padding: 15px 30px;
+        background: #8b0000;
+        color: #000000;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        text-shadow: 1px 1px 2px #ff0000;
+        transition: all 0.3s ease;
+        width: 250px;
+    }
+
+    .play-again-btn:hover {
+        background: #ff0000;
+        transform: scale(1.05);
+    }
+
+    #final-score {
+        font-family: 'Eater', cursive;
+        color: #ffaa00;
+        font-size: 2em;
+        text-shadow: 2px 2px 4px #000000;
+        margin: 20px 0;
+    }
+
     /* Sound controls */
     #sound-controls {
         position: fixed;
@@ -298,7 +334,7 @@
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
                 messageEl.textContent = "⏰ Time's up! The ghost attacks!";
-                playSound('wrong');
+                playSound('timeup'); // CHANGED: Now plays "You didn't enter the result!"
                 playSound('ghost');
                 updateScore(-10); // Penalty for running out of time
                 setTimeout(nextRoom, 2000);
@@ -351,8 +387,48 @@
         descriptionEl.textContent = "🎉 You escaped the haunted dungeon! Congratulations!";
         inputEl.style.display = "none";
         buttonEl.style.display = "none";
-        messageEl.textContent = `Final Score: ${score} points!`;
+        
+        // Show final score and play again options
+        messageEl.innerHTML = `
+            <div id="final-score">Final Score: ${score} points!</div>
+            <div id="play-again-container">
+                <div style="font-size: 1.2em; margin-bottom: 15px; color: #ff6b6b;">Would you like to play again?</div>
+                <button class="play-again-btn" id="play-again-yes">YES - Play Again! 👻</button>
+                <button class="play-again-btn" id="play-again-no">NO - Show My Score</button>
+            </div>
+        `;
+        
         playSound('victory');
+        
+        // Add event listeners for play again buttons
+        document.getElementById('play-again-yes').addEventListener('click', restartGame);
+        document.getElementById('play-again-no').addEventListener('click', showFinalScore);
+    }
+
+    function restartGame() {
+        // Reset game state
+        currentRoom = 0;
+        score = 0;
+        updateScore(0);
+        updateRoomDisplay();
+        
+        // Show game interface again
+        inputEl.style.display = "inline-block";
+        buttonEl.style.display = "inline-block";
+        messageEl.textContent = "";
+        
+        // Start from first room
+        showRoom();
+    }
+
+    function showFinalScore() {
+        // Remove the play again buttons and just show the final score
+        messageEl.innerHTML = `
+            <div id="final-score">Your Final Score: ${score} points!</div>
+            <div style="font-size: 1.2em; color: #ff6b6b; margin-top: 20px;">
+                Thanks for playing! Refresh the page to play again.
+            </div>
+        `;
     }
 
     // ========== START SCREEN LOGIC - ADDED HERE ==========
@@ -400,6 +476,9 @@
                 window.speechSynthesis.speak(msg);
             } else if (soundName === 'victory') {
                 const msg = new SpeechSynthesisUtterance('congratulations, you win!');
+                window.speechSynthesis.speak(msg);
+            } else if (soundName === 'timeup') {
+                const msg = new SpeechSynthesisUtterance('You didn\'t enter the result!');
                 window.speechSynthesis.speak(msg);
             }
         } catch (e) {
